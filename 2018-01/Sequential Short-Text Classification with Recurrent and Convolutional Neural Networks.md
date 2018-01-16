@@ -7,6 +7,7 @@ CNN, RNN, text classification
 1. RNN
 <img src='images/3.jpeg'>
 In the pooling layer, the sequence of vectors h1:loutput from the RNN layer are combined into a single vector s ∈ Rn that represents the short-text, using one of the following mechanisms: last, mean, and max pooling. Last pooling takes the last vector, i.e., s = hl, mean pooling averages all vectors, i.e.,s = average(h1:l), and max pooling takes the element wise maximum of h1:l .
+
 2. CNN
 <img src='images/4.jpeg'>
 
