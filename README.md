@@ -9,3 +9,4 @@ Notes of read paper
 
 ## Recommendation system
 1. [Barkan, O. and Koenigstein, N., 2016, September. Item2vec: neural item embedding for collaborative filtering.](https://arxiv.org/pdf/1603.04259.pdf)
+2. [Covington, P., Adams, J. and Sargin, E., 2016, September. Deep neural networks for youtube recommendations. In Proceedings of the 10th ACM Conference on Recommender Systems (pp. 191-198). ACM.](https://dl.acm.org/ft_gateway.cfm?id=2959190&type=pdf)
