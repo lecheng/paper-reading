@@ -28,15 +28,19 @@ Joint training of a Wide & Deep Model is done by back- propagating the gradients
 <img src="images/11.jpeg">where Y is the binary class label, σ(·) is the sigmoid func- tion, φ(x) are the cross product transformations of the orig- inal features x, and b is the bias term. wwide is the vector of all wide model weights, and wdeep are the weights applied on the final activations a(lf ).
 
 ## Wide and Deep Model for Google App Store
+### System overview
+<img src="images/7.jpeg">
+
+### Model architecture
 <img src="images/8.jpeg">
 
-### data generation
+### Data generation
 In this stage, user and app impression data within a period of time are used to generate training data. Each example corresponds to one impression. The label is app acquisition: 1 if the impressed app was installed, and 0 otherwise.Vocabularies, which are tables mapping categorical fea- ture strings to integer IDs, are also generated in this stage. The system computes the ID space for all the string features that occurred more than a minimum number of times. Con- tinuous real-valued features are normalized to [0, 1] by map- ping a feature value x to its cumulative distribution function P (X ≤ x), divided into nq quantiles. The normalized valueis i−1 for values in the i-th quantiles. Quantile boundaries
 are computed during data generation.
 
-### model training
+### Model training
 The model structure we used in the experiment is shown in Figure 4. During training, our input layer takes in training data and vocabularies and generate sparse and dense fea- tures together with a label. The wide component consists of the cross-product transformation of user installed apps and impression apps. For the deep part of the model, A 32- dimensional embedding vector is learned for each categorical feature. We concatenate all the embeddings together with the dense features, resulting in a dense vector of approxi- mately 1200 dimensions. The concatenated vector is then fed into 3 ReLU layers, and finally the logistic output unit.The Wide & Deep models are trained on over 500 billion examples. Every time a new set of training data arrives, the model needs to be re-trained. However, retraining from scratch every time is computationally expensive and delays the time from data arrival to serving an updated model. To tackle this challenge, we implemented a warm-starting system which initializes a new model with the embeddings and the linear model weights from the previous model.Before loading the models into the model servers, a dry run of the model is done to make sure that it does not cause problems in serving live traffic. We empirically validate the model quality against the previous model as a sanity check.
 
-### model serving
+### Model serving
 Once the model is trained and verified, we load it into the model servers. For each request, the servers receive a set of app candidates from the app retrieval system and user features to score each app. Then, the apps are ranked from the highest scores to the lowest, and we show the apps to the users in this order. The scores are calculated by running a forward inference pass over the Wide & Deep model.In order to serve each request on the order of 10 ms, we optimized the performance using multithreading parallelism by running smaller batches in parallel, instead of scoring all candidate apps in a single batch inference step.
 
